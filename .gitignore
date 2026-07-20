@@ -12,3 +12,4 @@ server/logs/
 .env
 .history/
 allKeys.md
+server/temp/

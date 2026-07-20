@@ -1,0 +1,14 @@
+node_modules/
+dist/
+__pycache__/
+*.pyc
+.DS_Store
+.vscode/
+.idea/
+server/data/knowledgeDatabase/
+server/data/downloadPapers/
+server/logs/
+*.sqlite3
+.env
+.history/
+allKeys.md

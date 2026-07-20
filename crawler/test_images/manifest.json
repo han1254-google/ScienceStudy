@@ -1,0 +1,59 @@
+{
+  "description": "ScienceStudy ",
+  "categories": {
+    "cck8": {
+      "count": 1,
+      "files": [
+        "cck8_test_data.xlsx"
+      ]
+    },
+    "edu": {
+      "count": 6,
+      "files": [
+        "edu_Control_ratio45%.png",
+        "edu_Control_ratio55%.png",
+        "edu_Treatment_10uM_ratio30%.png",
+        "edu_Treatment_20uM_ratio20%.png",
+        "edu_Treatment_30uM_ratio12%.png",
+        "edu_Treatment_40uM_ratio5%.png"
+      ]
+    },
+    "colony": {
+      "count": 6,
+      "files": [
+        "colony_Control_n62.png",
+        "colony_Control_n85.png",
+        "colony_Drug_10uM_n25.png",
+        "colony_Drug_15uM_n15.png",
+        "colony_Drug_20uM_n8.png",
+        "colony_Drug_5uM_n40.png"
+      ]
+    },
+    "wb": {
+      "count": 4,
+      "files": [
+        "wb_Bax_21kDa.png",
+        "wb_Bcl-2_26kDa.png",
+        "wb_Cleaved_Caspase-3_17kDa.png",
+        "wb_GAPDH_37kDa.png"
+      ]
+    },
+    "qpcr": {
+      "count": 1,
+      "files": [
+        "qpcr_test_data.xlsx"
+      ]
+    },
+    "ihc": {
+      "count": 6,
+      "files": [
+        "ihc_Normal_Hscore40.png",
+        "ihc_Normal_Hscore85.png",
+        "ihc_Tumor_Grade_1_Hscore135.png",
+        "ihc_Tumor_Grade_1_Hscore190.png",
+        "ihc_Tumor_Grade_2_Hscore240.png",
+        "ihc_Tumor_Grade_2_Hscore290.png"
+      ]
+    }
+  }
+}

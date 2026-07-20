@@ -2,6 +2,8 @@
 
 AI 辅助生物医学研究一体化平台，覆盖 **实验设计 → 图像分析 → 标书撰写 → 论文撰写** 全流程。
 
+![ScienceStudy Banner](imgs/Gemini_Generated_Image_db9ia4db9ia4db9i.png)
+
 ## 四大模块
 
 | 模块 | Agent | 功能 |

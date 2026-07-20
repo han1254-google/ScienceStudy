@@ -10,7 +10,7 @@ from .knowledge_base import KnowledgeBase, SearchResult
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("ExpDesigner")
 
-from config import DEEPSEEK_API_KEY, DEEPSEEK_BASE_URL, DEEPSEEK_MODEL
+from config import LLM_API_KEY, LLM_BASE_URL, LLM_MODEL
 
 
 def _llm_log(step: str, t0: float, resp, extra: str = ""):
@@ -29,7 +29,7 @@ class ExperimentDesigner:
 
     def __init__(self, kb: KnowledgeBase):
         self.kb = kb
-        self.client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url=DEEPSEEK_BASE_URL, timeout=120.0, max_retries=3)
+        self.client = OpenAI(api_key=LLM_API_KEY, base_url=LLM_BASE_URL, timeout=120.0, max_retries=3)
 
     def generate(self, user_idea: str, top_k: int = 30, max_embedding_calls: int = 5) -> dict:
         t0 = time.time()
@@ -80,7 +80,7 @@ class ExperimentDesigner:
     def _parse_intent(self, user_idea: str) -> dict:
         t0 = time.time()
         resp = self.client.chat.completions.create(
-            model=DEEPSEEK_MODEL,
+            model=LLM_MODEL,
             messages=[{"role": "system", "content": """从用户输入提取研究要素，只返回 JSON：
 {"substance":"目标物质","disease":"疾病/表型","process":"生物学过程","pathway":"通路或null","research_type":"体外/体内/两者"}"""},
                 {"role": "user", "content": user_idea}],
@@ -129,7 +129,7 @@ class ExperimentDesigner:
 
         t0 = time.time()
         resp = self.client.chat.completions.create(
-            model=DEEPSEEK_MODEL,
+            model=LLM_MODEL,
             messages=[{"role": "system", "content": system},
                        {"role": "user", "content": f"## 研究想法\n{user_idea}\n\n## 文献证据({len(evidence)}条)\n{evidence_text}\n\n请生成简洁的实验方案（2000字以内）。"}],
             temperature=0.3, max_tokens=3000,

@@ -147,6 +147,45 @@ async def get_experiment_template(experiment_type: str):
         raise HTTPException(status_code=404, detail=str(e))
 
 
+@router.get("/templates/{experiment_type}/download")
+async def download_template(experiment_type: str):
+    """下载实验数据模板文件 (Excel)"""
+    from fastapi.responses import StreamingResponse
+    import pandas as pd
+    import io
+
+    templates_map = {
+        "cck8": pd.DataFrame(columns=["group", "concentration(uM)", "OD450", "replicate"],
+                              data=[["Control", 0, "", 1], ["DrugA", 10, "", 1]]),
+        "qpcr": pd.DataFrame(columns=["gene", "group", "Ct", "replicate"],
+                              data=[["GAPDH", "Control", "", 1], ["Bax", "Control", "", 1]]),
+        "edu": pd.DataFrame(columns=["filename", "group", "edu_channel", "nuclear_dye", "threshold"],
+                             data=[["edu_sample.png", "Control", "green", "dapi", 30]]),
+        "colony": pd.DataFrame(columns=["filename", "group", "min_area", "seeded_cells"],
+                                data=[["colony_sample.png", "Control", 50, 1000]]),
+        "wb": pd.DataFrame(columns=["filename", "group", "lanes", "housekeeping", "target_proteins"],
+                            data=[["wb_sample.png", "Control", 6, "GAPDH", "Bax,Bcl-2"]]),
+        "ihc": pd.DataFrame(columns=["filename", "group", "stain_type", "dab_threshold"],
+                             data=[["ihc_sample.png", "Tumor", "dab-he", 50]]),
+    }
+
+    if experiment_type not in templates_map:
+        raise HTTPException(status_code=404, detail=f"未知实验类型: {experiment_type}")
+
+    df = templates_map[experiment_type]
+    output = io.BytesIO()
+    with pd.ExcelWriter(output, engine="openpyxl") as writer:
+        df.to_excel(writer, index=False, sheet_name="Sheet1")
+    output.seek(0)
+
+    filename = f"{experiment_type}_template.xlsx"
+    return StreamingResponse(
+        output,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": f"attachment; filename={filename}"},
+    )
+
+
 # ============================================================
 # 2.1 模板数据分析 — CCK8
 # ============================================================

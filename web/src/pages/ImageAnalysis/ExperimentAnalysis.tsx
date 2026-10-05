@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import {
   Card, Row, Col, Typography, Tabs, Button, Upload, Space, Table,
-  InputNumber, Select, Divider, Empty, message, Slider, Spin, Image as AntImage,
+  InputNumber, Select, Divider, Empty, message, Slider, Spin, Image as AntImage, Steps,
 } from 'antd'
 import {
   PictureOutlined, LineChartOutlined, UploadOutlined,
@@ -46,6 +46,43 @@ function ChartDisplay({ chart }: { chart: ChartItem }) {
       {chart.description && (
         <Text type="secondary" style={{ fontSize: 11, display: 'block' }}>{chart.description}</Text>
       )}
+    </div>
+  )
+}
+
+/** 下载模板 */
+const API_BASE = 'http://localhost:8000/api/image-analysis'
+function downloadTemplate(type: string) {
+  const a = document.createElement('a')
+  a.href = `${API_BASE}/templates/${type}/download`
+  a.click()
+}
+
+/** 模板引导横幅 — 醒目提示"先下载模板" */
+function TemplateBanner({ type }: { type: string }) {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 12,
+      background: '#e6f4ff', border: '1px solid #91caff',
+      borderRadius: 8, padding: '10px 16px', marginBottom: 16,
+    }}>
+      <Text strong style={{ fontSize: 13, whiteSpace: 'nowrap' }}>📋 操作流程：</Text>
+      <Steps
+        size="small"
+        style={{ flex: 1, margin: 0 }}
+        items={[
+          {
+            title: (
+              <Button type="primary" size="small" icon={<DownloadOutlined />}
+                onClick={() => downloadTemplate(type)}>
+                下载数据模板
+              </Button>
+            ),
+          },
+          { title: '按模板填写数据' },
+          { title: '上传文件开始分析' },
+        ]}
+      />
     </div>
   )
 }
@@ -140,6 +177,7 @@ function CCK8Panel() {
     <div>
       <Title level={4}>CCK8 细胞增殖/毒性分析</Title>
       <Paragraph type="secondary">导入 OD 值数据，自动计算细胞活力、拟合剂量-效应曲线、计算 IC50</Paragraph>
+      <TemplateBanner type="cck8" />
       <Row gutter={[16, 16]}>
         <Col xs={24} md={8}>
           <Card size="small" title="📊 数据导入">
@@ -227,6 +265,7 @@ function EdUPanel() {
     <div>
       <Title level={4}>EdU 细胞增殖图像分析</Title>
       <Paragraph type="secondary">上传 EdU 荧光图像，AI 自动识别 EdU+ 细胞和总细胞核，计算增殖率</Paragraph>
+      <TemplateBanner type="edu" />
       <Row gutter={[16, 16]}>
         <Col xs={24} md={12}>
           <Card size="small" title="🖼️ 图像上传">
@@ -296,6 +335,7 @@ function ColonyPanel() {
     <div>
       <Title level={4}>细胞克隆形成分析</Title>
       <Paragraph type="secondary">上传结晶紫染色克隆图像，AI 自动识别和计数克隆集落</Paragraph>
+      <TemplateBanner type="colony" />
       <Row gutter={[16, 16]}>
         <Col xs={24} md={12}>
           <Card size="small" title="🖼️ 图像上传">
@@ -357,6 +397,7 @@ function WBPanel() {
     <div>
       <Title level={4}>Western Blot 条带定量分析</Title>
       <Paragraph type="secondary">上传 WB 化学发光图像，自动识别泳道和条带，灰度定量</Paragraph>
+      <TemplateBanner type="wb" />
       <Row gutter={[16, 16]}>
         <Col xs={24} md={12}>
           <Card size="small" title="🖼️ 图像上传">
@@ -432,6 +473,7 @@ function QPCRPanel() {
     <div>
       <Title level={4}>qPCR 结果分析</Title>
       <Paragraph type="secondary">导入 Ct 值数据，自动计算 ΔΔCt 和相对表达量</Paragraph>
+      <TemplateBanner type="qpcr" />
       <Row gutter={[16, 16]}>
         <Col xs={24} md={8}>
           <Card size="small" title="📊 数据导入">
@@ -519,6 +561,7 @@ function IHCPanel() {
     <div>
       <Title level={4}>IHC 免疫组化图像分析</Title>
       <Paragraph type="secondary">上传 IHC 染色图像，自动分离 DAB 阳性信号和苏木精复染，计算 H-Score</Paragraph>
+      <TemplateBanner type="ihc" />
       <Row gutter={[16, 16]}>
         <Col xs={24} md={12}>
           <Card size="small" title="🖼️ 图像上传">

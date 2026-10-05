@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { Card, Tabs, Typography } from 'antd'
-import { LineChartOutlined, CodeOutlined, CameraOutlined } from '@ant-design/icons'
+import { LineChartOutlined, CameraOutlined } from '@ant-design/icons'
 import raccoonAvatar from '../../logo/浣熊.png'
 import ExperimentAnalysis from './ExperimentAnalysis'
-import CustomAnalysis from './CustomAnalysis'
 import ImageUnderstanding from './ImageUnderstanding'
 
 const { Title, Paragraph } = Typography
@@ -16,11 +15,6 @@ export default function ImageAnalysis() {
       key: 'template',
       label: <span><LineChartOutlined /> 实验数据分析</span>,
       children: <ExperimentAnalysis />,
-    },
-    {
-      key: 'custom',
-      label: <span><CodeOutlined /> 自定义分析</span>,
-      children: <CustomAnalysis />,
     },
     {
       key: 'vision',
@@ -36,7 +30,7 @@ export default function ImageAnalysis() {
         <div>
           <Title level={3} style={{ marginBottom: 4 }}>图像分析</Title>
           <Paragraph type="secondary" style={{ marginBottom: 0 }}>
-            实验数据模板分析 · AI 自定义代码分析 · AI 图像视觉理解
+            实验数据模板分析 · AI 图像视觉理解
           </Paragraph>
         </div>
       </div>
